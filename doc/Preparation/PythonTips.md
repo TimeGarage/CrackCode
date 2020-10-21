@@ -36,6 +36,15 @@ if a <= b < c:
     return True
 ```
 
+#### 判断空节点
+
+```Python3
+if/while not node: // 如果为空节点
+if/while node: //如果为非空节点
+```
+
+
+
 ## 自带算法
 
 #### 排序

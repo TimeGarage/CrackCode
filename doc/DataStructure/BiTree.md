@@ -131,4 +131,55 @@ class Solution:
 
 #### 层次遍历
 
-二叉树的层次遍历可使用BFS算法来解决
+二叉树的层次遍历可使用双层迭代和BFS遍历来解决。
+
+**双层迭代**
+
+双层迭代法的实现较为简单，但需要借助额外的存储空间记录节点。
+
+```Python3
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root: # 判断根节点是否为空
+            return []
+        cur_level, next_level = [root], []
+        res = [[i.val for i in cur_level]]
+        while cur_level or next_level:
+            for node in cur_level: # 将当前层的下一层所有节点加入到next_level列表中
+                if node.left: 
+                    next_level.append(node.left)
+                if node.right: 
+                    next_level.append(node.right)
+            if next_level:
+                res.append([i.val for i in next_level])
+            cur_level, next_level = next_level, []
+        return res
+```
+
+**BFS遍历**
+
+BFS遍历使用队列来辅助记录节点的遍历顺序
+
+```Python3
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        from collections import deque
+        queue = deque()
+        queue.append(root)
+        res = []
+
+        while queue:
+            cur_res = []
+            for _ in range(len(queue)): // 这样写而不使用for node in queue的原因是queue在循环语句中是不断变化的。
+                node = queue.popleft()
+                cur_res.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            res.append(cur_res)
+        return res
+```
+
