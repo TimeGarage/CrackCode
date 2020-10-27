@@ -165,9 +165,7 @@ class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
         if not root:
             return []
-        from collections import deque
-        queue = deque()
-        queue.append(root)
+        queue = collections.deque([root])
         res = []
 
         while queue:
@@ -183,3 +181,73 @@ class Solution:
         return res
 ```
 
+### 常见题型
+
+#### [maximum-depth-of-binary-tree](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+
+> 给定一个二叉树，求最大深度。
+>
+> 难度：⚫⚪⚪⚪⚪
+
+**思路1：分治法**
+
+```Python3
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+```
+
+**思路2：层次遍历**
+
+```Python3
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        depth = 0
+        if not root:
+            return depth
+        bfs = collections.deque([root])
+        while len(bfs) > 0:
+            level_node =len(bfs)
+            for _ in range(level_node):
+                node = bfs.popleft()
+                if node.left:
+                    bfs.append(node.left)
+                if node.right:
+                    bfs.append(node.right)
+            depth += 1
+        return depth
+```
+
+#### [balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
+
+> 给定一个二叉树，判断它是否是高度平衡的二叉树。
+>
+> 难度：⚫⚪⚪⚪⚪
+
+**分治法**
+
+```Python3
+class Solution:
+    def height(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return 1 + max(self.height(root.left), self.height(root.right))
+
+    def isBalanced(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        return abs(self.height(root.left) - self.height(root.right)) <= 1 and self.isBalanced(root.left) and self.isBalanced(root.right)
+```
+
+⚠注意：
+
+- 在Python中Boolean值的首字母为大写 => True、False ， 而非小写的true、false。
+- 在Python的Class中调用函数不要忘记使用self关键字。
+
+#### [binary-tree-maximum-path-sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+> 给定一个非空二叉树，返回其最大路径和。
+>
+> 难度：⚫⚪⚪⚪⚪
